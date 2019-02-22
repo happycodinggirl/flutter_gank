@@ -19,8 +19,12 @@ class CategoryItem{
 }
 
 class CatergoryApi{
-  String url=""
+  String url="http://gank.io/api/xiandu/categories";
   Dio dio=new DioUtil().getInstance().getDio();
+
+  Future<Category> getCategory() async{
+
+  }
 
 
 
