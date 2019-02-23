@@ -1,20 +1,21 @@
 import 'package:dio/dio.dart';
 class DioUtil{
-  DioUtil dioUtil;
+  static DioUtil dioUtil;
   static Dio dio;
-  DioUtil getInstance(){
+
+  static DioUtil getInstance(){
     if(dioUtil==null){
-      dioUtil=new DioUtil().init();
+      dioUtil=new DioUtil();
     }
+
     return dioUtil;
   }
 
-  DioUtil init(){
-    dio=new Dio();
-    return this;
-  }
 
   Dio getDio(){
+    if(dio==null){
+      dio=new Dio();
+    }
     return dio;
   }
 

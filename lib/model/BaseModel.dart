@@ -1,3 +1,4 @@
+import 'dart:convert';
 
 class BaseModel<T>{
 
@@ -6,8 +7,18 @@ class BaseModel<T>{
     T results;
 
   // ignore: const_constructor_with_non_final_field
-  const BaseModel(this.error, this.results);
+   BaseModel(this.error, this.results);
 
+
+
+
+
+
+
+   @override
+   String toString() {
+     return 'BaseModel{error: $error, results: $results}';
+   }
 
 
 }
