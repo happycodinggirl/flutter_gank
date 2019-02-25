@@ -1,4 +1,7 @@
-# flutter_app1
+#使用干货集中营中的Api，用Flutter码的一个小demo。
+
+# 感谢干活集中营，http://gank.io/api
+
 
 A new Flutter application.
 
