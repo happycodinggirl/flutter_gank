@@ -1,7 +1,6 @@
-#使用干货集中营中的Api，用Flutter码的一个小demo。
 
-# 感谢干活集中营，http://gank.io/api
-
+# 干货集中营练手项目
+感谢干货集中营http://gank.io/api，使用他的的Api，用Flutter码的一个小demo。
 
 A new Flutter application.
 
