@@ -4,10 +4,15 @@ import 'package:flutter_app1/presenters/CatergoryPresenter.dart';
 import 'package:flutter_app1/views/CatergoryView.dart';
 import 'package:flutter_app1/model/CatergoryItem.dart';
 import 'package:flutter_app1/ChildCatergoryPage.dart';
+import 'package:flutter/services.dart';
+
 void main() =>runApp(MyApp());
 class MyApp extends StatelessWidget{
   @override
-  Widget build(BuildContext context)=> MaterialApp(home: CustomApp());
+  Widget build(BuildContext context)=> MaterialApp(home: CustomApp()
+  ,routes: <String,WidgetBuilder>{
+    "/home":(BuildContext context)=>CustomApp()
+    },);
 
 }
 
@@ -24,6 +29,8 @@ class AppState extends State<CustomApp> with SingleTickerProviderStateMixin impl
 
 
   List<CategoryItem> categoryItemList;
+
+  int lastPressTime=0;
 
   List<Tab> generateTab(List<CategoryItem> cateItemList){
 
@@ -56,14 +63,28 @@ class AppState extends State<CustomApp> with SingleTickerProviderStateMixin impl
 
   }
 
+  Future<bool> _onWillPop(){
+    showDialog(context: context,builder:(BuildContext context){
+      return new AlertDialog(title: Text("退出app?"),content: Text("你确定要退出app吗？"),
+        actions: <Widget>[FlatButton(onPressed: (){
+          Navigator.of(context).pop();
+          SystemNavigator.pop();
+        }, child: Text("确定")),FlatButton(onPressed: (){
+          Navigator.pop(context);
+        }, child: Text("取消"))],);
+
+    });
+  }
+
+
+
   PageController pageController;
   @override
   Widget build(BuildContext context) {
     print("----build");
     if(categoryItemList==null){
-      return new Scaffold(
-        appBar: AppBar(title: Text("干活集中营"),),
-        body:Center(child: CircularProgressIndicator(),),
+      return new Container(
+        child:Center(child: CircularProgressIndicator(),)
       );
     }
 
@@ -81,7 +102,7 @@ class AppState extends State<CustomApp> with SingleTickerProviderStateMixin impl
     pageController=PageController(initialPage: 0);
 
     print("tabList is $tabList");
-    return MaterialApp(home: Scaffold(
+    return new WillPopScope( child:  Scaffold(
         appBar: AppBar(
           title: Text("干货集中营"),
           backgroundColor: Colors.blue,
@@ -109,7 +130,7 @@ class AppState extends State<CustomApp> with SingleTickerProviderStateMixin impl
           },
         )
     ),
-    );
+     onWillPop: _onWillPop,);//
   }
 
   Widget getDrawer(){
@@ -128,20 +149,12 @@ class AppState extends State<CustomApp> with SingleTickerProviderStateMixin impl
     ListTile(
     title: Text('个人中心'),
     onTap: () {
-    // Update the state of the app
-    // ...
-    // Then close the drawer
-    Navigator.pop(context);
     },
     ),
     Divider(height: 1,),
     ListTile(
     title: Text('设置'),
     onTap: () {
-    // Update the state of the app
-    // ...
-    // Then close the drawer
-    Navigator.pop(context);
     },
     ),
    Divider(height: 1,),

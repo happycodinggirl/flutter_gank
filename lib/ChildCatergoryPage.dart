@@ -24,6 +24,8 @@ class ChildState extends State<ChildCatergoryPage>  implements CatergoryChildVie
 
   String type;
 
+  int lastPressTime;
+
 
   ChildState(this.type);
 
@@ -45,6 +47,19 @@ class ChildState extends State<ChildCatergoryPage>  implements CatergoryChildVie
       subtitle: new Text(catergoryChild.created_at),//子item的内容
       trailing: new Icon(Icons.arrow_right,color: Colors.green,),//显示右侧的箭头，不显示则传null
     );
+  }
+
+  Future<bool> _onWillPop(){
+    if(DateTime.now().millisecond-lastPressTime>2000){
+      print("--------one press");
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text("再按一次退出程序")));
+      lastPressTime=DateTime.now().millisecond;
+      return Future.value(false);
+    }else{
+      print("--------two press");
+
+      return Future.value(true);
+    }
   }
 
 
@@ -81,8 +96,8 @@ class ChildState extends State<ChildCatergoryPage>  implements CatergoryChildVie
       ),
       );*/
 
-    return  new Scaffold(
-      body:ListView.separated(
+    return  new Container(
+      child:ListView.separated(
         itemBuilder: (BuildContext context,int index){
           CatergoryChild catergoryChild=catergoryChildList[index];
           return getItem(catergoryChild,index);
