@@ -16,6 +16,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  transparent_image: ^0.1.0
 
   dio: 2.0.0
   cached_network_image: ^0.6.2

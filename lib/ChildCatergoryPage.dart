@@ -4,6 +4,7 @@ import 'package:flutter_app1/presenters/CatergoryPresenter.dart';
 import 'package:flutter_app1/views/CatergoryChildView.dart';
 import 'package:flutter_app1/model/CatergoryChild.dart';
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class ChildCatergoryPage extends StatefulWidget{
@@ -116,8 +117,7 @@ class ChildState extends State<ChildCatergoryPage>  implements CatergoryChildVie
         child:Padding(
       padding: EdgeInsets.only(left:10,top:0,right:10,bottom:0),
       child: Row(children: <Widget>[
-        Column(children: <Widget>[new CachedNetworkImage(imageUrl:item.icon,placeholder:(context,url)=>new CircularProgressIndicator(),
-          errorWidget: (context,url,error)=>new Icon(Icons.error)
+        Column(children: <Widget>[new FadeInImage.memoryNetwork(image:item.icon,placeholder:kTransparentImage
           ,fit: BoxFit.cover,width: 100,height: 100,)],crossAxisAlignment: CrossAxisAlignment.start,),
         Column(children: <Widget>[Container(margin: new EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),child:Text(item.title,style: TextStyle(color: Colors.black,fontSize: 20),) ,alignment:FractionalOffset.topLeft,)
         ,Container(margin: new EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),child:Text(item.created_at,style: TextStyle(color: Colors.grey,fontSize: 15),) )],)
