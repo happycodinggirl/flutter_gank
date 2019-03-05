@@ -4,6 +4,7 @@ import 'package:flutter_app1/presenters/CatergoryPresenter.dart';
 import 'package:flutter_app1/views/CatergoryChildView.dart';
 import 'package:flutter_app1/model/CatergoryChild.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ChildCatergoryPage extends StatefulWidget{
 
@@ -14,7 +15,6 @@ class ChildCatergoryPage extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return new ChildState(type);
   }
 
@@ -49,18 +49,7 @@ class ChildState extends State<ChildCatergoryPage>  implements CatergoryChildVie
     );
   }
 
-  Future<bool> _onWillPop(){
-    if(DateTime.now().millisecond-lastPressTime>2000){
-      print("--------one press");
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text("再按一次退出程序")));
-      lastPressTime=DateTime.now().millisecond;
-      return Future.value(false);
-    }else{
-      print("--------two press");
 
-      return Future.value(true);
-    }
-  }
 
 
   @override
@@ -72,11 +61,11 @@ class ChildState extends State<ChildCatergoryPage>  implements CatergoryChildVie
       );
     }
       
-    Iterable<Widget> listTiles=catergoryChildList.map((item){
+   /* Iterable<Widget> listTiles=catergoryChildList.map((item){
       return buildSingleTile(context, item);
     }).toList();
 
-    listTiles=ListTile.divideTiles(tiles: listTiles,context: context);
+    listTiles=ListTile.divideTiles(tiles: listTiles,context: context);*/
 
   /*  return  new Scaffold(
       body:ListView.separated(
@@ -127,7 +116,9 @@ class ChildState extends State<ChildCatergoryPage>  implements CatergoryChildVie
         child:Padding(
       padding: EdgeInsets.only(left:10,top:0,right:10,bottom:0),
       child: Row(children: <Widget>[
-        Column(children: <Widget>[Image.network(item.icon,fit: BoxFit.cover,width: 100,height: 100,)],crossAxisAlignment: CrossAxisAlignment.start,),
+        Column(children: <Widget>[new CachedNetworkImage(imageUrl:item.icon,placeholder:(context,url)=>new CircularProgressIndicator(),
+          errorWidget: (context,url,error)=>new Icon(Icons.error)
+          ,fit: BoxFit.cover,width: 100,height: 100,)],crossAxisAlignment: CrossAxisAlignment.start,),
         Column(children: <Widget>[Container(margin: new EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),child:Text(item.title,style: TextStyle(color: Colors.black,fontSize: 20),) ,alignment:FractionalOffset.topLeft,)
         ,Container(margin: new EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),child:Text(item.created_at,style: TextStyle(color: Colors.grey,fontSize: 15),) )],)
       ],),
