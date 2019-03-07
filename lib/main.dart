@@ -4,6 +4,7 @@ import 'package:flutter_app1/presenters/CatergoryPresenter.dart';
 import 'package:flutter_app1/views/CatergoryView.dart';
 import 'package:flutter_app1/model/CatergoryItem.dart';
 import 'package:flutter_app1/ChildCatergoryPage.dart';
+import 'package:flutter_app1/pages/StackTest.dart';
 import 'package:flutter/services.dart';
 
 void main() =>runApp(MyApp());
@@ -24,7 +25,7 @@ class CustomApp extends StatefulWidget{
   }
 
 }
-class AppState extends State<CustomApp> with SingleTickerProviderStateMixin implements CatergoryView {
+class AppState extends State<CustomApp> with TickerProviderStateMixin implements CatergoryView {
 
 
 
@@ -147,8 +148,9 @@ class AppState extends State<CustomApp> with SingleTickerProviderStateMixin impl
     ),
     ),
     ListTile(
-    title: Text('个人中心'),
+    title: Text('stack使用'),
     onTap: () {
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>StackTest()));
     },
     ),
     Divider(height: 1,),

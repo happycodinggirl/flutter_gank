@@ -119,7 +119,8 @@ class ChildState extends State<ChildCatergoryPage>  implements CatergoryChildVie
       child: Row(children: <Widget>[
         Column(children: <Widget>[new FadeInImage.memoryNetwork(image:item.icon,placeholder:kTransparentImage
           ,fit: BoxFit.cover,width: 100,height: 100,)],crossAxisAlignment: CrossAxisAlignment.start,),
-        Column(children: <Widget>[Container(margin: new EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),child:Text(item.title,style: TextStyle(color: Colors.black,fontSize: 20),) ,alignment:FractionalOffset.topLeft,)
+        Column(children: <Widget>[Container(margin: new EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+          child:Text(item.title,style: TextStyle(color: Colors.black,fontSize: 20),) ,alignment:FractionalOffset.topLeft,)
         ,Container(margin: new EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),child:Text(item.created_at,style: TextStyle(color: Colors.grey,fontSize: 15),) )],)
       ],),
 
