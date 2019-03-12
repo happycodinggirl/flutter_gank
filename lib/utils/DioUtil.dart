@@ -12,6 +12,12 @@ class DioUtil{
   }
 
 
+  void init(){
+
+
+  }
+
+
   Dio getDio(){
     if(dio==null){
       dio=new Dio();

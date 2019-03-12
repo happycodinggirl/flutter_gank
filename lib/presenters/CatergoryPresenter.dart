@@ -6,15 +6,20 @@ import 'package:flutter_app1/model/CatergoryChild.dart';
 import 'package:flutter_app1/presenters/BasePresenter.dart';
 import 'dart:io';
 import 'dart:convert';
+import 'package:flutter_app1/model/big.dart';
 
 class CatergoryPresenter extends BasePresenter{
 
   Future<BaseModel<List<CategoryItem>>> getCatergory() async {
     String url = "http://gank.io/api/xiandu/categories";
     Response response = await getDio().get(url);
+
     BaseModel<List<CategoryItem>> model = new BaseModel(
         true, null);
     if (response.statusCode == HttpStatus.OK) {
+      big bigf=big.fromJson(response.data);//注意此处是为了学习json_serializable使用的，这样可以直接解析出来，还是很方便的，跟BaseModel<List<CategoryItem>>同义。
+      print("----bigf is $bigf");
+
         bool error=response.data['error'];
 
       print("---model is $model");
