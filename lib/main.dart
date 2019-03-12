@@ -5,15 +5,21 @@ import 'package:flutter_app1/views/CatergoryView.dart';
 import 'package:flutter_app1/model/CatergoryItem.dart';
 import 'package:flutter_app1/ChildCatergoryPage.dart';
 import 'package:flutter_app1/pages/StackTest.dart';
+import 'package:flutter_app1/pages/WebSocketPage.dart';
 import 'package:flutter/services.dart';
+
+import 'package:web_socket_channel/io.dart';
+import 'package:flutter/material.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 void main() =>runApp(MyApp());
 class MyApp extends StatelessWidget{
   @override
-  Widget build(BuildContext context)=> MaterialApp(home: CustomApp()
+  Widget build(BuildContext context)=> MaterialApp(home:CustomApp()
   ,routes: <String,WidgetBuilder>{
-    "/home":(BuildContext context)=>CustomApp()
-    },);
+    "/home":(BuildContext context)=>WebSocketPage(new IOWebSocketChannel.connect('ws://192.168.1.85:29065/websocket'))
+  });
+
 
 }
 
