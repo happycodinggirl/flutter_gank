@@ -12,176 +12,189 @@ import 'package:web_socket_channel/io.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-void main() =>runApp(MyApp());
-class MyApp extends StatelessWidget{
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context)=> MaterialApp(home:CustomApp()
-  ,routes: <String,WidgetBuilder>{
-    "/home":(BuildContext context)=>WebSocketPage(new IOWebSocketChannel.connect('ws://192.168.1.85:29065/websocket'))
-  });
-
-
+  Widget build(BuildContext context) => MaterialApp(home: CustomApp());
 }
 
-class CustomApp extends StatefulWidget{
+class CustomApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
     return new AppState();
   }
-
 }
-class AppState extends State<CustomApp> with TickerProviderStateMixin implements CatergoryView {
 
-
-
+class AppState extends State<CustomApp>
+    with TickerProviderStateMixin
+    implements CatergoryView {
   List<CategoryItem> categoryItemList;
 
-  int lastPressTime=0;
+  int lastPressTime = 0;
 
-  List<Tab> generateTab(List<CategoryItem> cateItemList){
-
-    List<Tab> tabList=cateItemList.map((cateItem){
-      return new Tab(text: cateItem.name,);
+  List<Tab> generateTab(List<CategoryItem> cateItemList) {
+    List<Tab> tabList = cateItemList.map((cateItem) {
+      return new Tab(
+        text: cateItem.name,
+      );
     }).toList();
     print("tabList sizer is ${tabList.length}");
     return tabList;
   }
+
   TabController tabController;
   CatergoryTask catergoryTask;
   List<Tab> tabList;
+
   @override
   void initState() {
     super.initState();
 
-    catergoryTask=new CatergoryTask(new CatergoryPresenter(),this);
+    catergoryTask = new CatergoryTask(new CatergoryPresenter(), this);
     catergoryTask.getCatergory();
-
   }
-  bool pageIsChanging=false;
-  void onPageChange(int index, {PageController p}){
-    if(p!=null) {
+
+  bool pageIsChanging = false;
+
+  void onPageChange(int index, {PageController p}) {
+    if (p != null) {
       pageIsChanging = true;
-      pageController.animateToPage(index, duration: Duration(milliseconds: 500), curve: Curves.ease);
-      pageIsChanging=false;
-    }else{
+      pageController.animateToPage(index,
+          duration: Duration(milliseconds: 500), curve: Curves.ease);
+      pageIsChanging = false;
+    } else {
       tabController.animateTo(index);
     }
-
   }
 
-  Future<bool> _onWillPop(){
-    showDialog(context: context,builder:(BuildContext context){
-      return new AlertDialog(title: Text("退出app?"),content: Text("你确定要退出app吗？"),
-        actions: <Widget>[FlatButton(onPressed: (){
-          Navigator.of(context).pop();
-          SystemNavigator.pop();
-        }, child: Text("确定")),FlatButton(onPressed: (){
-          Navigator.pop(context);
-        }, child: Text("取消"))],);
-
-    });
+  Future<bool> _onWillPop() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: Text("退出app?"),
+            content: Text("你确定要退出app吗？"),
+            actions: <Widget>[
+              FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    SystemNavigator.pop();
+                  },
+                  child: Text("确定")),
+              FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("取消"))
+            ],
+          );
+        });
   }
-
-
 
   PageController pageController;
+
   @override
   Widget build(BuildContext context) {
     print("----build");
-    if(categoryItemList==null){
+    if (categoryItemList == null) {
       return new Container(
-        child:Center(child: CircularProgressIndicator(),)
-      );
+          child: Center(
+        child: CircularProgressIndicator(),
+      ));
     }
 
+    tabList = categoryItemList == null ? null : generateTab(categoryItemList);
+    tabController =
+        new TabController(vsync: this, length: categoryItemList.length);
 
-    tabList=categoryItemList==null?null:generateTab(categoryItemList);
-    tabController=new TabController(vsync:this,length:categoryItemList.length);
-
-    tabController.addListener((){
-      if(tabController.indexIsChanging){
+    tabController.addListener(() {
+      if (tabController.indexIsChanging) {
         print(tabController.index);
-        onPageChange(tabController.index,p:pageController);
+        onPageChange(tabController.index, p: pageController);
       }
     });
 
-    pageController=PageController(initialPage: 0);
+    pageController = PageController(initialPage: 0);
 
     print("tabList is $tabList");
-    return new WillPopScope( child:  Scaffold(
-        appBar: AppBar(
-          title: Text("干货集中营"),
-          backgroundColor: Colors.blue,
-          bottom: new TabBar(
-            controller: tabController,
-
-            isScrollable: true,
-            tabs: tabList,
-            indicatorColor: Colors.red,
-            labelColor: Colors.white,
-          )
-          ,),
-        drawer: Drawer(child: getDrawer(),),
-
-        body:PageView.builder(itemBuilder: (BuildContext context,int index){
-          return new ChildCatergoryPage(categoryItemList[index].en_name);
-
-        },itemCount: categoryItemList.length,
-        controller: pageController,
-
-          onPageChanged: (index){
-              if(!pageIsChanging){
+    return new WillPopScope(
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text("干货集中营"),
+            backgroundColor: Colors.blue,
+            bottom: new TabBar(
+              controller: tabController,
+              isScrollable: true,
+              tabs: tabList,
+              indicatorColor: Colors.red,
+              labelColor: Colors.white,
+            ),
+          ),
+          drawer: Drawer(
+            child: getDrawer(),
+          ),
+          body: PageView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return new ChildCatergoryPage(categoryItemList[index].en_name);
+            },
+            itemCount: categoryItemList.length,
+            controller: pageController,
+            onPageChanged: (index) {
+              if (!pageIsChanging) {
                 onPageChange(index);
               }
-          },
-        )
-    ),
-     onWillPop: _onWillPop,);//
+            },
+          )),
+      onWillPop: _onWillPop,
+    ); //
   }
 
-  Widget getDrawer(){
-   return  ListView(
+  Widget getDrawer() {
+    return ListView(
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: <Widget>[
-   new UserAccountsDrawerHeader(
-   accountName: new Text('lily'),
-    accountEmail: new Text('1369246510@qq.com'),
-    currentAccountPicture: new CircleAvatar(
-    backgroundImage: new NetworkImage(
-    'https://profile.csdnimg.cn/7/0/A/1_u010095768'),
-    ),
-    ),
-    ListTile(
-    title: Text('stack使用'),
-    onTap: () {
-      Navigator.push(context,MaterialPageRoute(builder: (context)=>StackTest()));
-    },
-    ),
-    Divider(height: 1,),
-    ListTile(
-    title: Text('设置'),
-    onTap: () {
-    },
-    ),
-   Divider(height: 1,),
-    ]);
+          new UserAccountsDrawerHeader(
+            accountName: new Text('lily'),
+            accountEmail: new Text('1369246510@qq.com'),
+            currentAccountPicture: new CircleAvatar(
+              backgroundImage: new NetworkImage(
+                  'https://profile.csdnimg.cn/7/0/A/1_u010095768'),
+            ),
+          ),
+          ListTile(
+            title: Text('stack使用'),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => StackTest()));
+            },
+          ),
+          Divider(
+            height: 1,
+          ),
+          ListTile(
+            title: Text('设置'),
+            onTap: () {},
+          ),
+          Divider(
+            height: 1,
+          ),
+        ]);
   }
 
   @override
   void onLoadDataFail() {
     print("----loadDataFail ");
-
   }
 
   @override
   void onLoadDataSuccess(t) {
     print("----loadDataSuccess is $t");
     setState(() {
-      categoryItemList=t.results;
+      categoryItemList = t.results;
     });
-
   }
 
   @override
