@@ -14,7 +14,8 @@ class ItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(//为了添加点击水波纹效果而加上的
+    return Padding(
+      //为了添加点击水波纹效果而加上的
       padding: const EdgeInsets.all(10.0),
       child: InkWell(
           onTap: () {
@@ -63,25 +64,44 @@ class ItemView extends StatelessWidget {
 
 class ListViewM extends StatelessWidget {
   List<CatergoryChild> catergoryChildList;
+  ScrollController scrollController;
+  bool isFetching;
 
-  ListViewM(this.catergoryChildList);
+  void setIsFetching(bool fetch){
+    isFetching=fetch;
+  }
+
+  Widget buildCircleProgressBar() {
+    return Padding(
+      padding: EdgeInsets.all(8),
+      child:Center(child: Opacity(
+          opacity:1, child: CircularProgressIndicator()),
+      ),) ;
+  }
+
+  ListViewM(this.catergoryChildList, this.scrollController, this.isFetching);
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       itemBuilder: (BuildContext context, int index) {
-        CatergoryChild catergoryChild = catergoryChildList[index];
-        return ItemView(catergoryChild, index, (index) {
-          Scaffold.of(context)
-              .showSnackBar(SnackBar(content: Text("第$index项被点击了")));
-        });
+        if (index == catergoryChildList.length) {
+          return buildCircleProgressBar();
+        } else {
+          CatergoryChild catergoryChild = catergoryChildList[index];
+          return ItemView(catergoryChild, index, (index) {
+            Scaffold.of(context)
+                .showSnackBar(SnackBar(content: Text("第$index项被点击了")));
+          });
+        }
       },
       separatorBuilder: (context, index) {
         return new Divider(
           height: 1,
         );
       },
-      itemCount: catergoryChildList.length,
+      itemCount: catergoryChildList.length + 1,
+      controller: scrollController,
     );
   }
 }
