@@ -16,7 +16,7 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => MaterialApp(home: CustomApp());
+  Widget build(BuildContext context) => MaterialApp(home: WebSocketPage(IOWebSocketChannel.connect("ws://192.168.1.136:8888?username=1552463738041&password=123")));
 }
 
 class CustomApp extends StatefulWidget {
