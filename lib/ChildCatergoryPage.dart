@@ -108,6 +108,7 @@ class ChildState extends State<ChildCatergoryPage>
 
   @override
   void onLoadDataFail() {
+    debugPrint("----onLoadDataFail ");
     setState(() {
       isFetching = false;
     });
@@ -115,22 +116,29 @@ class ChildState extends State<ChildCatergoryPage>
 
   @override
   void onLoadDataSuccess(t) {
-    setState(() {
+
       isFetching = false;
       if(loadMore) {
         fetchCount++;
       }
       if (fetchCount > 3) {
-        scrollanimToEnd();
+        listViewM.setOfStage(true);
+      //  scrollanimToEnd();
         Scaffold.of(context).showSnackBar(SnackBar(content: Text("没有更多喽")));
+        setState(() {
+
+        });
       } else {
         if (catergoryChildList == null) {
           catergoryChildList = t.results;
         } else {
           catergoryChildList.addAll(t.results);
         }
+        setState(() {
+
+        });
       }
-    });
+
   }
 
   void scrollanimToEnd() {

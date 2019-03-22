@@ -19,7 +19,6 @@ class WebSocketState extends State<WebSocketPage> {
   
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.webSocketChannel.stream.listen((message){
       debugPrint("----listen message is ${message}");
@@ -61,28 +60,7 @@ class WebSocketState extends State<WebSocketPage> {
       ),
       floatingActionButton: FloatingActionButton(onPressed: sendMessage,child: Icon(Icons.send),),
     );
-    /*Padding(padding: EdgeInsets.all(10),
-      child: Column(
-        children: <Widget>[
-          Form(child: TextFormField(controller:controller
-                ,
-          decoration: InputDecoration(labelText: "send a message"),
-  ))
-  ,
-  StreamBuilder(
-  stream: widget.webSocketChannel.stream,
-  builder: (context,snapshot){
 
-    return Padding(padding:EdgeInsets.symmetric(vertical: 24)
-        ,child: Text(snapshot.hasData??snapshot.data),);
-  })
-  ,
-
-
-        ],
-      ),
-    );
-    return container;*/
     return container;
   }
 

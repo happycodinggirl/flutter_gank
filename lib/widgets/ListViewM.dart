@@ -67,16 +67,26 @@ class ListViewM extends StatelessWidget {
   ScrollController scrollController;
   bool isFetching;
 
+  var ofStage=false;
+
   void setIsFetching(bool fetch){
     isFetching=fetch;
   }
 
+   void setOfStage(bool offStage){
+     ofStage=offStage;
+     debugPrint("setOfStage $offStage real is $ofStage");
+   }
+
   Widget buildCircleProgressBar() {
-    return Padding(
+    debugPrint("---build last one ofStage is $ofStage");
+    return Offstage(
+      offstage: ofStage,
+      child: Padding(
       padding: EdgeInsets.all(8),
       child:Center(child: Opacity(
           opacity:1, child: CircularProgressIndicator()),
-      ),) ;
+      ),) ,);
   }
 
   ListViewM(this.catergoryChildList, this.scrollController, this.isFetching);
@@ -86,6 +96,7 @@ class ListViewM extends StatelessWidget {
     return ListView.separated(
       itemBuilder: (BuildContext context, int index) {
         if (index == catergoryChildList.length) {
+          debugPrint("---print last one");
           return buildCircleProgressBar();
         } else {
           CatergoryChild catergoryChild = catergoryChildList[index];

@@ -11,23 +11,26 @@ import 'package:flutter/services.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:jpush_flutter/jpush_flutter.dart';
+
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => MaterialApp(home: WebSocketPage(IOWebSocketChannel.connect("ws://192.168.1.136:8888?username=1552463738041&password=123")));
+  Widget build(BuildContext context) => MaterialApp(home: HomePage());
+ // Widget build(BuildContext context) => MaterialApp(home: WebSocketPage(IOWebSocketChannel.connect("ws://192.168.1.236:8888?username=1552463738041&password=123")));
 }
 
-class CustomApp extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return new AppState();
+    return new HomeState();
   }
 }
 
-class AppState extends State<CustomApp>
+class HomeState extends State<HomePage>
     with TickerProviderStateMixin
     implements CatergoryView {
   List<CategoryItem> categoryItemList;
